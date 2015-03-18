@@ -20,8 +20,8 @@ readFeatures <- function(featureFile, featureNames) {
 }
 
 readClasses <- function(classFile, levels, labels) {
-  classes  <- read.table(classFile)
-  classes <- factor(classes, levels = levels, labels = labels)
+  classes  <- read.table(classFile, col.names = "class")
+  classes[, 1] <- factor(classes[, 1], levels = levels, labels = labels)
   classes
 }
 
@@ -30,16 +30,26 @@ readSubjects <- function(subjFile) {
   subjects
 }
 
+
 #Read the features.txt file, but don't convert to factors.
 #Subset  the second column, only the character vector is important.
 features <- read.table(featureFile, sep = " ", stringsAsFactors = FALSE)
 features <- features[,2]
 
-activities <- read.table(actlabelFile)
+activities <- read.table(actlabelFile, stringsAsFactors = FALSE)
 actLevels <- activities[, 1]
 actLabels <- activities[, 2]
+
 
 tr_features <- readFeatures(train_x, features)
 tr_classes <- readClasses(train_y, actLevels, actLabels)
 tr_subjects <- readSubjects(train_sub)
+trainingData <- cbind(tr_features, tr_subjects, tr_classes)
+
+tst_features <- readFeatures(test_x, features)
+tst_classes <- readClasses(test_y, actLevels, actLabels)
+tst_subjects <- readSubjects(test_sub)
+testData <- cbind(tst_features, tst_subjects, tst_classes)
+
+allData <- rbind(trainingData, testData)
 
