@@ -3,3 +3,4 @@ UCI HAR Dataset
 *.RData
 *.Rhistory
 *.Rproj.user
+.Rproj.user
