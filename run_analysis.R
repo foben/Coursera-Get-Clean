@@ -53,3 +53,10 @@ testData <- cbind(tst_features, tst_subjects, tst_classes)
 
 allData <- rbind(trainingData, testData)
 
+averageData <- 
+  allData %>%
+  group_by(class, subject) %>%
+  summarise_each(funs(mean))
+
+write.table(averageData, "tidy_data.txt", row.names=FALSE)
+
