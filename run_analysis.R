@@ -50,7 +50,7 @@ actLevels <- activityMapping[, 1]
 actLabels <- activityMapping[, 2]
 
 #Read the features.txt file and retain the second column,
-#yielding a character vector of descriptive variable names for requirement 4.
+#yielding a character vector of descriptive variable names.
 features <- read.table(featureNamesFile, sep = " ", stringsAsFactors = FALSE)
 features <- features[,2]
 
@@ -74,7 +74,7 @@ testData <- cbind(tst_activities, tst_subjects, tst_features)
 #Achieving requirement 1 (2 through 4 are already achieved)
 allData <- rbind(trainingData, testData)
 
-#The dplyr package is required for the last data reduction step.
+#The dplyr package is required for the next data reduction step.
 library(dplyr)
 #Group the combined dataset by activity and subject
 #and summarise all other variables with the mean function.
@@ -83,6 +83,19 @@ averageData <-
   allData %>%
   group_by(activity, subject) %>%
   summarise_each(funs(mean))
+
+#The following lines clean up the variable names a bit
+varNames <- names(averageData)
+#Substitute dots and capitalize the mean and std identifiers
+varNames <- gsub("\\.mean", "Mean", varNames)
+varNames <- gsub("\\.std", "Std", varNames)
+#Remove remaining dots
+varNames <- gsub("\\.", "", varNames)
+#Add the Avg_ identifier to all but subject and activity, to indicate
+#the data reduction step
+varNames <- c(varNames[1:2], paste("Avg_", varNames[-(1:2)], sep=""))
+
+names(averageData) <- varNames
 
 #Write the resulting data frame to a text file,
 #achieving the 5. and final requriement
