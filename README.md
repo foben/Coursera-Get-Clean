@@ -17,14 +17,14 @@ The script starts by setting up the "environment", defining all the required pat
 relative to the path of the top data directory (lines 1 - 17).
 
 Then, three helper functions are set up:   
-*readFeatures*(lines 20-30) which reads the actual feature data from a given file,
+`readFeatures` *(lines 20-30)* which reads the actual feature data from a given file,
 subsetting only those variables that contain mean or standard deviation calculations **(requirement 2)**.
 
-*readActivities*(lines 33-39) which reads in the activity codes from a given file.
+`readActivities` *(lines 33-39)* which reads in the activity codes from a given file.
 The codes are then replaced with the actual activity labels,
  which are also supplied as arguments **(requirement 3)**.
 
-*readSubjects*(lines 42-45) which reads is the numeric subject identification number from a given file.
+`readSubjects` *(lines 42-45)* which reads is the numeric subject identification number from a given file.
 
 The actual work load is performed from lines 48 onwards.
 First, vectors containing the levels and names of activities are constructed
